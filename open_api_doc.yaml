@@ -1,0 +1,75 @@
+openapi: 3.0.0
+info:
+  title: Product API
+  version: "1.0.0"
+paths:
+  /products:
+    get:
+      summary: Get all products
+      parameters:
+        - in: query
+          name: in_stock
+          schema:
+            type: boolean
+          description: Filter products by stock availability
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    price:
+                      type: number
+                      format: float
+                    in_stock:
+                      type: boolean
+    post:
+      summary: Add a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: float
+                in_stock:
+                  type: boolean
+              required:
+                - name
+                - price
+                - in_stock
+      responses:
+        "201":
+          description: Product created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  price:
+                    type: number
+                    format: float
+                  in_stock:
+                    type: boolean
+        "400":
+          description: Invalid input
+servers:
+  - url: http://127.0.0.1:5000
+    description: Local Flask Development Server
